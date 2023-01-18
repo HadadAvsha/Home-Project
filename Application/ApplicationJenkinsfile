@@ -92,15 +92,17 @@ pipeline {
             script {
                 sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git fetch --tags git@github.com:HadadAvsha/Home-Project.git"""
                 latestTag = sh (script: """git tag -l | sort -V | tail -n 1""", returnStdout: true).trim()
-                if (latestTag == '') {latestTag='1.0.0'}
-                echo "latest tag is : ${latestTag}"
-                lastTagSplitted=latestTag.split('\\.')
-                major = lastTagSplitted[0]
-                minor = lastTagSplitted[1]
-                patch = lastTagSplitted[2].toInteger()
-                newPatch = patch + 1
-                nextTag = "${major}.${minor}.${newPatch}"
-                echo "Next tag is: ${nextTag}"
+                if (latestTag == '') {nextTag='0.0.0'} 
+                else {latestTag='0.0.0'
+                    echo "latest tag is : ${latestTag}"
+                    lastTagSplitted=latestTag.split('\\.')
+                    major = lastTagSplitted[0]
+                    minor = lastTagSplitted[1]
+                    patch = lastTagSplitted[2].toInteger()
+                    newPatch = patch + 1
+                    nextTag = "${major}.${minor}.${newPatch}"
+                    echo "Next tag is: ${nextTag}"
+                } //EO else
                 sh "git tag ${nextTag}"
                 sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git push --tags"""              
             } //EO script
