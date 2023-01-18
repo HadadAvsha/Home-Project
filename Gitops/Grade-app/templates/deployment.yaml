@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.appName }}
+  labels:
+    app: {{ .Values.app.appName }}
+spec:
+  replicas: {{ .Values.app.demoReplicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.app.appName }}
+        image: "avshah/grade-app:{{- .Values.app.tag -}}"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                key: MONGODB_URI
+        resources:
+          limits: 
+            memory: {{ .Values.app.resources.limits.memory }}
+            cpu: {{ .Values.app.resources.limits.cpu }}
+          requests:
+            memory: {{ .Values.app.resources.requests.memory }}
+            cpu: {{ .Values.app.resources.requests.cpu }}

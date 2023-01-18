@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "demo-crm.fullname" . }}-test-connection"
+  labels:
+    {{- include "demo-crm.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "demo-crm.fullname" . }}:{{ .Values.app.service.port }}']
+  restartPolicy: Never

@@ -93,7 +93,7 @@ pipeline {
             script {
                 sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git fetch --tags git@github.com:HadadAvsha/Home-Project.git"""
                 latestTag = sh (script: """git tag -l | sort -V | tail -n 1""", returnStdout: true).trim()
-                if (latestTag == '') {nextTag='0.0.0'} 
+                if (latestTag == '') {nextTag='1.0.0'} 
                 else {latestTag='0.0.0'
                     echo "latest tag is : ${latestTag}"
                     lastTagSplitted=latestTag.split('\\.')
@@ -144,10 +144,10 @@ pipeline {
     // }
     //     steps {
     //         script{
-    //             dir('argocd'){
-    //             checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GithubCreds', url: 'git@github.com:HadadAvsha/Home-Project.git']]])
-    //             sh "pwd"
-    //             dir ("Grade-app"){
+    //  //           dir('argocd'){
+    //  //           checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GithubCreds', url: 'git@github.com:HadadAvsha/Home-Project.git']]])
+    //  //           sh "pwd"
+    //             dir ("Gitops/Grade-app"){
     //                 sh "pwd"
     //                 def filename = 'values.yaml'
     //                 def data = readYaml file: filename
@@ -161,8 +161,8 @@ pipeline {
     //                     git commit -m "updated tag to ${nextTag}"
     //                     git push
     //                 """
-    //             } //EO dir(Grade-app)
-    //             } //EO dir('argocd')
+    //             } //EO dir(Gitops/Grade-app)
+    //  //           } //EO dir('argocd')
     //         } //EO script
     //     } //EO steps
     // } //EO UpdateHelmTag

@@ -1,0 +1,36 @@
+# Default values for demo-crm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+######## Deployment related values ########
+app:
+  appName: app
+  demoReplicaCount: 2
+  tag: "1.0.0"
+
+  service:
+    # type: ClusterIP
+    port: 8080
+    targetPort: 5000
+
+  resources:
+    limits: 
+      memory: "128Mi"
+      cpu: "100m"
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+
+######## ingress related values ########
+ingress:
+  dnsName: avshaproject.ddns.net
+  enabled: true
+
+######## mongoDB related values ########
+mongodb:
+  fullnameOverride: mongodb
+  architecture: replicaset
+  replicaCount: 3
+  auth:
+    rootUser: root
+    rootPassword: "example"
