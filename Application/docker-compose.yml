@@ -24,7 +24,7 @@ services:
   app:
     container_name: app
     build: .
-    image: avsha_project
+    image: grade-app
     ports:
       - "5000:5000"
     networks: 

@@ -103,8 +103,7 @@ pipeline {
                     nextTag = "${major}.${minor}.${newPatch}"
                     echo "Next tag is: ${nextTag}"
                 } //EO else
-                sh "git tag ${nextTag}"
-                sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git push --tags git@github.com:HadadAvsha/Home-Project.git"""              
+                sh "git tag ${nextTag}"           
             } //EO script
         } //EO steps
     } //EO Git_tag
@@ -125,6 +124,18 @@ pipeline {
             }//EO script
         } //EO steps
     } //EO publish
+
+    stage('push git tag'){
+        when {
+            branch "main"
+        } //EO when
+        steps {
+            script{
+                sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git push --tags git@github.com:HadadAvsha/Home-Project.git"""
+            } //EO script
+        } //EO steps
+    } //push git tag
+                    
 
     // stage('UpdateHelmTag') {
     // when {
