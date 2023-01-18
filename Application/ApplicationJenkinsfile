@@ -41,7 +41,9 @@ pipeline {
         } //EO when
         steps {
             script{
-                sh """docker build . -t '${image}'"""                          
+                dir('Application'){
+                sh """docker build . -t '${image}'"""
+                }// EO dir('Application')                      
             } //EO script
         } //EO steps
     } //EO Build
@@ -55,11 +57,13 @@ pipeline {
         } //EO when
         steps {
             script{
+                dir('Application'){
                 sh """
                 docker compose up -d
                 sleep 5
                 bash unit_testing.sh
                 """
+                }// EO dir('Application')
             } //EO scrpit
         } //EO steps
     } //EO unit_testing
@@ -73,7 +77,9 @@ pipeline {
         } //EO when
         steps {
             script{
-                sh """bash e2e_testing.sh"""                          
+                dir('Application'){
+                sh """bash e2e_testing.sh"""
+                }// EO dir('Application')
             } //EO script
         } //EO steps
     } //EO e2e_testing
@@ -107,61 +113,63 @@ pipeline {
     }
         steps {
             script{
-                                    // configuring the dockerhub settings and deploying //
+                dir('Application'){
+                               // configuring the dockerhub settings and deploying //
                 withDockerRegistry(credentialsId: 'dockerHub', url: "${reponame}") {
                     sh "docker tag ${image} ${reponame}:${nextTag}"
                     sh "docker push ${reponame}:${nextTag}"
                 }//EO withDockerRegistry
+                }// EO dir('Application')
             }//EO script
         } //EO steps
     } //EO publish
 
-    stage('UpdateHelmTag') {
-    when {
-        branch "main"    
-    }
-        steps {
-            script{
-                dir('argocd'){
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GithubCreds', url: 'git@github.com:HadadAvsha/Project-Gitops.git']]])
-                sh "pwd"
-                dir ("Grade-app"){
-                    sh "pwd"
-                    def filename = 'values.yaml'
-                    def data = readYaml file: filename
-                    println(nextTag)
-                    data.app.tag = "${nextTag}"
-                    sh "rm $filename"
-                    writeYaml file: filename, data: data
-                    sh """
-                        git checkout main
-                        git add values.yaml
-                        git commit -m "updated tag to ${nextTag}"
-                        git push
-                    """
-                } //EO dir(Grade-app)
-                } //EO dir('argocd')
-            } //EO script
-        } //EO steps
-    } //EO UpdateHelmTag
+    // stage('UpdateHelmTag') {
+    // when {
+    //     branch "main"    
+    // }
+    //     steps {
+    //         script{
+    //             dir('argocd'){
+    //             checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GithubCreds', url: 'git@github.com:HadadAvsha/Home-Project.git']]])
+    //             sh "pwd"
+    //             dir ("Grade-app"){
+    //                 sh "pwd"
+    //                 def filename = 'values.yaml'
+    //                 def data = readYaml file: filename
+    //                 println(nextTag)
+    //                 data.app.tag = "${nextTag}"
+    //                 sh "rm $filename"
+    //                 writeYaml file: filename, data: data
+    //                 sh """
+    //                     git checkout main
+    //                     git add values.yaml
+    //                     git commit -m "updated tag to ${nextTag}"
+    //                     git push
+    //                 """
+    //             } //EO dir(Grade-app)
+    //             } //EO dir('argocd')
+    //         } //EO script
+    //     } //EO steps
+    // } //EO UpdateHelmTag
 
   } //EO stages
-  post {
-    always {
-        script{
-        /* clean up our workspace */
-            sh "docker compose down"
-            cleanWs()
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-            subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-        } //EO script
-    } //EO always
+//   post {
+//     always {
+//         script{
+//         /* clean up our workspace */
+//             sh "docker compose down"
+//             cleanWs()
+//             emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+//             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+//             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+//         } //EO script
+//     } //EO always
 
-    // failure {
-    //     emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-    //     recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-    //     subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-    // } //EO failure
-  } //EO post
+//     // failure {
+//     //     emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+//     //     recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+//     //     subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+//     // } //EO failure
+//   } //EO post
 } //EO pipeline
