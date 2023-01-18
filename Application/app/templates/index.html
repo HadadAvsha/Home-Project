@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+</head>
+<body>
+    <h1>Grades</h1>
+    <hr>
+    <form id="inform" action="/submit" method="GET">
+        <form id="form">
+        <div><button type="submit">Submit A grade</button></div>
+    </form> 
+    <br>
+    <form id="inform" action="/deleteroute" method="GET">
+        <form id="form">
+        <div><button type="submit">Delete an entry</button></div>
+    </form> 
+    <br>
+    <form id="inform" action="/putroute" method="PUT">
+        <form id="form">
+        <div><button type="submit">Modify an entry</button></div>
+    </form> 
+    <br>
+    {% for grade in grades %}
+        <div class="grade">
+            <p>{{  grade['name'] }} <i>({{ grade['email']}})</i> <i>({{ grade['grade']}})</i></p>
+        </div>
+    {% endfor %}
+    </div>
+</body>
+</html>

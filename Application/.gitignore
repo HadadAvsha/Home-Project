@@ -1,0 +1,11 @@
+.old
+init-db.js
+Infra/
+infra/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform
+.idea
+*.tfstate.*
+secrets.tf
+*.env
