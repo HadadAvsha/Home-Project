@@ -117,7 +117,7 @@ pipeline {
             script{
                 dir('Application'){
                                // configuring the dockerhub settings and deploying //
-                withDockerRegistry(credentialsId: 'dockerHub', url: "avshah/grade-app") {
+                withDockerRegistry(credentialsId: 'dockerHub') {
                     sh "docker tag ${image} ${reponame}:${nextTag}"
                     sh "docker push ${reponame}:${nextTag}"
                 }//EO withDockerRegistry
