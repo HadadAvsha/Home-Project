@@ -104,7 +104,7 @@ pipeline {
                     echo "Next tag is: ${nextTag}"
                 } //EO else
                 sh "git tag ${nextTag}"
-                sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git push --tags"""              
+                sh """GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa" git push --tags git@github.com:HadadAvsha/Home-Project.git"""              
             } //EO script
         } //EO steps
     } //EO Git_tag
