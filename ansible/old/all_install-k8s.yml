@@ -1,0 +1,117 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+     - name: Create containerd config file
+       file:
+         path: "/etc/modules-load.d/containerd.conf"
+         state: "touch"
+
+     - name: Add conf for containerd
+       blockinfile:
+         path: "/etc/modules-load.d/containerd.conf"
+         block: |
+               overlay
+               br_netfilter
+
+     - name: modprobe
+       shell: |
+               sudo modprobe overlay
+               sudo modprobe br_netfilter
+
+     - name: Set system configurations for Kubernetes networking
+       file:
+         path: "/etc/sysctl.d/kubernetes.conf"
+         state: "touch"
+
+     - name: Add conf for containerd
+       blockinfile:
+         path: "/etc/sysctl.d/kubernetes.conf"
+         block: |
+                net.bridge.bridge-nf-call-ip6tables = 1
+                net.bridge.bridge-nf-call-iptables = 1
+                net.ipv4.ip_forward = 1
+
+     - name: Apply new settings
+       command: sudo sysctl --system
+    
+     - name: Disable swap
+       shell: |
+               sudo swapoff -a
+               sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+     - name: Enable bridging
+       shell: | 
+               sudo sed -i '/^#net.ipv4.ip_forward=1/s/^#//' /etc/sysctl.conf
+     
+     - name: Enable br_netfilter
+       copy:
+         dest: /etc/modules-load.d/k8s.conf
+         content: | 
+            br_netfilter
+
+
+     - name: Install and configure dependencies
+       shell: |
+               curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+               sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+               sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+               curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+               sudo apt update
+
+     - name: Install containerd
+       shell: |
+               sudo apt update && sudo apt install -y containerd
+               sudo mkdir -p /etc/containerd
+               sudo -i
+               containerd config default>/etc/containerd/config.toml
+               exit
+               sudo systemctl restart containerd
+               sudo systemctl enable containerd
+               sudo systemctl enable kubelet
+       register: install_containerd
+
+     - name: Enable SystemdCgroup
+       lineinfile: 
+         path: /etc/containerd/config.toml
+         regexp: '^(\s*)SystemdCgroup = false' 
+         line: '\1SystemdCgroup = true'
+         backrefs: yes
+
+    #  - name: Reboot 
+    #    reboot:
+    #      test_command: uptime
+    #    when: install_containerd.changed
+      
+     - name: Create kubernetes repo file
+       file:
+         path: "/etc/apt/sources.list.d/kubernetes.list"
+         state: "touch"
+
+     - name: Add K8s Source
+       blockinfile:
+         path: "/etc/apt/sources.list.d/kubernetes.list"
+         block: |
+               deb https://apt.kubernetes.io/ kubernetes-xenial main
+
+    #  - name: Add K8s Source
+    #    shell: |
+    #            sudo echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+     - name: install kubernetes
+       shell: |
+               sudo apt update -y
+               sudo apt -y install vim git curl wget kubelet kubeadm kubectl
+               sudo apt-mark hold kubelet kubeadm kubectl
+
+    #  - name: install kubernetes
+    #    shell: |
+    #            sudo apt-get update
+    #            sudo apt-get install -y kubelet=1.26.0-00 kubeadm=1.26.0-00 kubectl=1.26.0-00
+    #            sudo apt-mark hold kubelet kubeadm kubectl

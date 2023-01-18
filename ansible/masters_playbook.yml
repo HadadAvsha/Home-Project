@@ -1,0 +1,67 @@
+- hosts: masters
+  become: yes
+  tasks:
+    - name: initialize the cluster
+      shell: sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+      # --control-plane-endpoint={{ ansible_default_ipv4.address }} --node-name={{ ansible_hostname }} 
+      args:
+        chdir: $HOME
+        creates: cluster_initialized.txt
+
+    - name: create .kube directory
+      become: yes
+      become_user: ubuntu
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: copies admin.conf to user's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ubuntu/.kube/config
+        remote_src: yes
+        owner: ubuntu
+
+    - name: change owner
+      become: yes
+      become_user: ubuntu
+      shell: |
+              sudo chown -R $USER $HOME/.kube
+
+    - name: Fetching .kube/config
+      fetch: src=/etc/kubernetes/admin.conf dest=fetched/ flat=yes
+
+    - name: Install Pod network
+      become: yes
+      become_user: ubuntu
+      shell: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml 
+      args:
+        chdir: $HOME
+
+    - name: Copy Metrics server file
+      become: yes
+      become_user: ubuntu
+      copy:
+        src: /tmp/metrics-server.yaml
+        dest: ~/
+
+    - name: install Metrics server
+      become: yes
+      become_user: ubuntu
+      shell: kubectl apply -f metrics-server.yaml
+      args:
+        chdir: $HOME
+        
+    - name: Get the token for joining the worker nodes
+      become: yes
+      become_user: ubuntu
+      shell: kubeadm token create  --print-join-command
+      register: kubernetes_join_command
+
+    # - debug:
+    #   msg: "{{ kubernetes_join_command.stdout }}"
+
+    - name: Copy join command to local file.
+      become: yes
+      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="/tmp/kubernetes_join_command" mode=0777
