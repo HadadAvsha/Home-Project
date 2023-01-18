@@ -42,6 +42,7 @@ pipeline {
         steps {
             script{
                 dir('Application'){
+                sh "docker compose down"
                 sh """docker build . -t '${image}'"""
                 }// EO dir('Application')                      
             } //EO script
