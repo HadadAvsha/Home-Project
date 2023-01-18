@@ -9,6 +9,7 @@
 
 | Name | Version |
 |------|---------|
+| <a name="provider_helm"></a> [helm](#provider\_helm) | n/a |
 | <a name="provider_proxmox"></a> [proxmox](#provider\_proxmox) | 2.9.8 |
 
 ## Modules
@@ -19,6 +20,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [proxmox_vm_qemu.controlplane](https://registry.terraform.io/providers/telmate/proxmox/2.9.8/docs/resources/vm_qemu) | resource |
 | [proxmox_vm_qemu.kube-node](https://registry.terraform.io/providers/telmate/proxmox/2.9.8/docs/resources/vm_qemu) | resource |
 
