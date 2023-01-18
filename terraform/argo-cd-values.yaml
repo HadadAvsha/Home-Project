@@ -1,0 +1,15 @@
+configs:
+  secret: 
+    argocdServerAdminPassword: "$2a$10$1ron7X/wZOeui6muWuJaAOxzkS.brCP1kll50xswb3uontWSDBxbC"
+  params: 
+    server.insecure: true
+fullnameOverride: "argocd"
+
+server:
+  ingress:
+    enabled: true
+    annotations:
+      "helm.sh/hook": post-install
+    ingressClassName: "nginx"
+    hosts:
+      - "argocd-ui"

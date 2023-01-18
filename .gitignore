@@ -54,3 +54,5 @@ terraform.tfstate.backup
 *.tfstate.*
 secrets.tf
 *.env
+*.old
+*.*.old
