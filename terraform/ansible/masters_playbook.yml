@@ -3,7 +3,6 @@
   tasks:
     - name: initialize the cluster
       shell: sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-      # --control-plane-endpoint={{ ansible_default_ipv4.address }} --node-name={{ ansible_hostname }} 
       args:
         chdir: $HOME
         creates: cluster_initialized.txt
@@ -39,28 +38,28 @@
       args:
         chdir: $HOME
 
-    - name: Copy Metrics server file
+    - name: copy multiple items
       become: yes
       become_user: ubuntu
-      copy:
-        src: /tmp/metrics-server.yaml
+      copy: 
+        src: "{{ item }}"
         dest: ~/
+      with_items:
+        - /tmp/Metrics-server.yaml
+        - /tmp/StorageClass.yml
 
-    - name: install Metrics server
+    - name: install k8s deps
       become: yes
       become_user: ubuntu
-      shell: kubectl apply -f metrics-server.yaml
+      shell: kubectl apply -f StorageClass.yml -f Metrics-server.yaml
       args:
         chdir: $HOME
-        
+       
     - name: Get the token for joining the worker nodes
       become: yes
       become_user: ubuntu
       shell: kubeadm token create  --print-join-command
       register: kubernetes_join_command
-
-    # - debug:
-    #   msg: "{{ kubernetes_join_command.stdout }}"
 
     - name: Copy join command to local file.
       become: yes

@@ -1,8 +1,8 @@
 #!/bin/bash
-echo "CDing to terraform directory"
-pushd ../terraform && bash prep.sh
-echo "Getting the IP of the VMs"
-popd
+# echo "CDing to terraform directory"
+# pushd ../terraform && bash prep.sh
+# echo "Getting the IP of the VMs"
+# popd
 echo "Copy necessary files to /tmp"
 cp metrics-server.yaml /tmp/
 echo "Running Prerequisites installations on all VMs"

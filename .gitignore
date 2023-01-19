@@ -56,3 +56,5 @@ secrets.tf
 *.env
 *.old
 *.*.old
+**/offgit/*
+offgit

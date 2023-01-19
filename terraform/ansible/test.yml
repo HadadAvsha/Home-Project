@@ -12,5 +12,6 @@
 
    - name: Join the Worker nodes to the cluster.
      become: yes
+     become_user: root
      command: sh /tmp/kubernetes_join_command
      register: joined_or_not
