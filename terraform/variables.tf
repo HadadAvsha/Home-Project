@@ -18,5 +18,5 @@ variable "gw_ns" {
 }
 
 variable "ssh_key_path" {
-  default = "~/.ssh/proxmox"
+  sensitive = true
 }

@@ -7,6 +7,7 @@ resource "proxmox_vm_qemu" "controlplane" {
 
   agent = 1
   os_type = "cloud-init"
+  ciuser = "ubuntu"
   cores = 2
   sockets = 1
   cpu = "host"
@@ -33,6 +34,7 @@ resource "proxmox_vm_qemu" "controlplane" {
   }
   ipconfig0 = "ip=192.168.100.4${count.index + 1}/24,gw=${var.gw_ns}"
   nameserver = var.gw_ns
+  ssh_private_key = var.ssh_key_path
 }
 
 resource "proxmox_vm_qemu" "kube-node" {
@@ -45,6 +47,7 @@ resource "proxmox_vm_qemu" "kube-node" {
 
   agent = 1
   os_type = "cloud-init"
+  ciuser = "ubuntu"
   cores = 2
   sockets = 1
   cpu = "host"
