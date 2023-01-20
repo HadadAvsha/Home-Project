@@ -25,7 +25,7 @@ pipeline {
         } //EO when
         steps {
             // println('building')
-            currentBuild.result = 'ABORTED'
+            currentBuild.result = "ABORTED"
             error('abort')
         } //EO steps
       } //EO Checkout
