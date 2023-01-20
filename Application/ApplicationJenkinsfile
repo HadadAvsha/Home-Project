@@ -20,7 +20,7 @@ pipeline {
     stage('Checking commit msg'){
         when {
             not {
-                changelog '.*^\\[ci build\\] .+$' 
+                changelog '^.*\[ci build\].*$'
             } //EO not 
         } //EO when
         steps {
