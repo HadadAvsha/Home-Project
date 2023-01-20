@@ -28,7 +28,7 @@ pipeline {
                 cleanWs()
                 checkout scm
                 currentBuild.result = "ABORTED"
-                error('abort')
+                error('Not part of build CI')
             } //OF script
         } //EO steps
       } //EO Checkout
