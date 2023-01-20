@@ -21,10 +21,11 @@ pipeline {
         when {
             not {
                 changelog '.*^\\[ci build\\] .+$' 
-            } //EO not
+            } //EO not 
+            {currentBuild.result = 'ABORTED'}
         } //EO when
         steps {
-            exit 1
+            println('building')
         } //EO steps
       } //EO Checkout
 
