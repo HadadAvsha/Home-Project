@@ -24,7 +24,7 @@ pipeline {
             } //EO not
         } //EO when
         steps {
-            currentBuild.result = 'NOT_BUILT'
+            exit 1
         } //EO steps
       } //EO Checkout
 
