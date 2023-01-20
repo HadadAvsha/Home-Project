@@ -25,7 +25,8 @@ pipeline {
         } //EO when
         steps {
             script{
-                // println('building')
+                cleanWs()
+                checkout scm
                 currentBuild.result = "ABORTED"
                 error('abort')
             } //OF script
