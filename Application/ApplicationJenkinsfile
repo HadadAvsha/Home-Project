@@ -19,7 +19,7 @@ pipeline {
   stages {
     stage('Checking commit msg'){
         steps {
-            if (changelog ('.*^\\[ci build\\] .+$') != 0) {currentBuild.result = 'NOT_BUILT'} 
+            if (changelog '.*^\\[ci build\\] .+$') {currentBuild.result = 'NOT_BUILT'} 
         } //EO steps
       } //EO Checkout
 
