@@ -17,6 +17,17 @@ pipeline {
     }
     
   stages {
+    stage('Checking commit msg'){
+        when {
+            not {
+                changelog '.*^\\[ci build\\] .+$'
+            } //EO not
+        } //EO when
+        steps {
+            currentBuild.result = 'NOT_BUILT'
+        } //EO steps
+      } //EO Checkout
+
     stage('Checkout and cleanup'){
         when {
             anyOf {
