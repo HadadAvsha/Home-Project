@@ -19,7 +19,7 @@ spec:
             port:
               number: {{ .Values.app.service.port }}
   tls:
-  - secretName: tls-cert
+  - secretName: letsencrypt
     hosts:
       - {{ .Values.ingress.dnsName }}
 {{ end }}

@@ -45,14 +45,15 @@
         src: "{{ item }}"
         dest: ~/
       with_items:
-        - /tmp/Metrics-server.yaml
+        - /tmp/Metrics-server.yml
         - /tmp/StorageClass.yml
         - /tmp/SC-openEBS.yml
+        - /tmp/MetalLB.sh
 
     - name: install k8s deps
       become: yes
       become_user: ubuntu
-      shell: kubectl apply -f StorageClass.yml -f Metrics-server.yaml -f SC-openEBS.yml
+      shell: kubectl apply -f StorageClass.yml -f Metrics-server.yml -f SC-openEBS.yml
       args:
         chdir: $HOME
 
