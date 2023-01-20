@@ -24,9 +24,11 @@ pipeline {
             } //EO not 
         } //EO when
         steps {
-            // println('building')
-            currentBuild.result = "ABORTED"
-            error('abort')
+            script{
+                // println('building')
+                currentBuild.result = "ABORTED"
+                error('abort')
+            } //OF script
         } //EO steps
       } //EO Checkout
 
