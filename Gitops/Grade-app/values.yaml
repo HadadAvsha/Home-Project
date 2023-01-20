@@ -1,6 +1,4 @@
 # Default values for demo-crm.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
 ######## Deployment related values ########
 app:
@@ -34,3 +32,6 @@ mongodb:
   auth:
     rootUser: root
     rootPassword: "example"
+#### local storage config using OpenEBS
+  global:
+    storageClass: "local-hostpath"

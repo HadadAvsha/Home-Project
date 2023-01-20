@@ -41,9 +41,7 @@ resource "null_resource" "ProvisionRemoteHostsIpToAnsibleHosts" {
   }
   provisioner "remote-exec" {
     inline = [
-      "echo 1",
-      "echo 2",
-      "echo 3"
+      "echo 'health check'"
     ]
   }
     depends_on = [
@@ -57,7 +55,7 @@ resource "null_resource" "ModifyApplyAnsiblePlayBook" {
           sleep 10
           cd ./ansible
           echo "Copy necessary files to /tmp"
-          cp Metrics-server.yaml StorageClass.yml /tmp/
+          cp Metrics-server.yaml StorageClass.yml SC-openEBS.yml /tmp/
           echo "Running Prerequisites installations on all VMs"
           ansible-playbook -i hosts all_pre.yml
           #ansible-playbook -i hosts all_install-k8s.yml
@@ -75,28 +73,3 @@ resource "null_resource" "ModifyApplyAnsiblePlayBook" {
     }
   depends_on = [null_resource.ProvisionRemoteHostsIpToAnsibleHosts]
 }
-
-# resource "null_resource" "ModifyApplyAnsiblePlayBook" {
-#     provisioner "local-exec" {
-#         # command = "sleep 10; bash ./ansible/run.sh"
-#         command = <<-EOT
-#           sleep 10
-#           cd ./ansible
-#           echo "Copy necessary files to /tmp"
-#           cp Metrics-server.yaml StorageClass.yml /tmp/
-#           echo "Running Prerequisites installations on all VMs"
-#           ansible-playbook -i hosts all_pre.yml
-#           #ansible-playbook -i hosts all_install-k8s.yml
-#           echo "Setting up the controlplane"
-#           ansible-playbook -i hosts masters_playbook.yml
-#           echo "Setting up the worker nodes"
-#           ansible-playbook -i hosts workers_playbook.yml
-#           echo "Setting up kube/config"
-#           mv fetched/admin.conf ~/.kube/config
-#           echo "chmoding .kube/config to only readable by me"
-#           chmod 600 ~/.kube/config
-#           until kubectl get nodes | grep -i "Ready"; do sleep 1 ;  done > /dev/null
-#         EOT
-#     }
-#   depends_on = [null_resource.ProvisionRemoteHostsIpToAnsibleHosts]
-# }

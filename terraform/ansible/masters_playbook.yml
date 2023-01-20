@@ -34,7 +34,7 @@
     - name: Install Pod network
       become: yes
       become_user: ubuntu
-      shell: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml 
+      shell: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
       args:
         chdir: $HOME
 
@@ -47,11 +47,19 @@
       with_items:
         - /tmp/Metrics-server.yaml
         - /tmp/StorageClass.yml
+        - /tmp/SC-openEBS.yml
 
     - name: install k8s deps
       become: yes
       become_user: ubuntu
-      shell: kubectl apply -f StorageClass.yml -f Metrics-server.yaml
+      shell: kubectl apply -f StorageClass.yml -f Metrics-server.yaml -f SC-openEBS.yml
+      args:
+        chdir: $HOME
+
+    - name: Install OpenEBS (for dynamic volume provisioning)
+      become: yes
+      become_user: ubuntu
+      shell: kubectl apply -f https://openebs.github.io/charts/openebs-operator-lite.yaml
       args:
         chdir: $HOME
        
