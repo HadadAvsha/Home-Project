@@ -5,6 +5,7 @@ metadata:
   name: ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
   ingressClassName: nginx
   rules:
@@ -19,7 +20,7 @@ spec:
             port:
               number: {{ .Values.app.service.port }}
   tls:
-  - secretName: letsencrypt
+  - secretName: "{{- .Values.app.appName -}}-cert"
     hosts:
       - {{ .Values.ingress.dnsName }}
 {{ end }}
