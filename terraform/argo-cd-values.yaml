@@ -1,3 +1,4 @@
+#run 'kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d' to get the password
 configs:
   secret: 
     argocdServerAdminPassword: "$2a$10$1ron7X/wZOeui6muWuJaAOxzkS.brCP1kll50xswb3uontWSDBxbC"
