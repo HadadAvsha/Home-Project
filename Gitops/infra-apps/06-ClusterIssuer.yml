@@ -18,3 +18,12 @@ spec:
     - http01:
         ingress:
           class: nginx
+  dependsOn:
+  - group: argoproj.io
+    kind: Application
+    name: cert-manager
+    namespace: default
+
+
+
+
