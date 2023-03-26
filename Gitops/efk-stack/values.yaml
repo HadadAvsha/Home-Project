@@ -33,6 +33,8 @@ kibana:
     #      - chart-example.local
 
 fluentd:
+  podSecurityPolicy:
+    create: false
   metrics:
     serviceMonitor:
       enabled: true
