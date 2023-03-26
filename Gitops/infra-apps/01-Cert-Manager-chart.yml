@@ -31,6 +31,7 @@ spec:
   #     name: grade-app
   #     namespace: default
   #     hook: after-sync-hook
+  
   syncPolicy:
     syncOptions:
     - CreateNamespace=false
