@@ -3,19 +3,20 @@ elasticsearch:
     requests:
       cpu: "500m"
       memory: "1Gi"
-    # limits:
-    #   cpu: "500m"
-    #   memory: "2Gi"
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
   volumeClaimTemplate.resources.requests.storage: 10Gi
+
 kibana:
   elasticsearchHosts: "http://elasticsearch-master:9200"
   resources:
     requests:
       cpu: "500m"
       memory: "1Gi"
-    # limits:
-    #   cpu: "500m"
-    #   memory: "2Gi"
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
   ingress:
     enabled: false
     className: "nginx"
