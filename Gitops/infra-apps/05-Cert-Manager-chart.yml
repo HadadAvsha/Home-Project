@@ -22,7 +22,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: default
   dependsOn:
-    - group: argoproj.io
+    - group: argoproj.io/v1alpha1
       kind: Application
       name: grade-app
       namespace: default
