@@ -10,7 +10,7 @@ variable "template_name" {
 }
 
 variable "disk_size" {
-  default = "50G"
+  default = "100G"
 }
 
 variable "gw_ns" {
