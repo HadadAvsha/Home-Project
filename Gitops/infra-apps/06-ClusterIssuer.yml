@@ -3,6 +3,8 @@ kind: ClusterIssuer
 metadata:
   name: letsencrypt
   namespace: default
+  annotations:
+    argocd.argoproj.io/hook: PostSync
 spec:
   # dependencies:
   #     - name: cert-manager
@@ -18,12 +20,12 @@ spec:
     - http01:
         ingress:
           class: nginx
-  dependsOn:
-  - apiVersion: argoproj.io/v1alpha1
-    kind: Application
-    name: cert-manager
-    namespace: default
-
+  # dependsOn:
+  # - apiVersion: argoproj.io/v1alpha1
+  #   kind: Application
+  #   name: cert-manager
+  #   namespace: default
+  #   hook: after-sync-hook
 
 
 

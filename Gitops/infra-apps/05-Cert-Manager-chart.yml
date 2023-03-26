@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: cert-manager
   namespace: default
+  annotations:
+    argocd.argoproj.io/hook: Sync
 spec:
   # dependencies:
   #     - name: grade-app
@@ -21,11 +23,12 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: default
-  dependsOn:
-    - apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      name: grade-app
-      namespace: default
+  # dependsOn:
+  #   - apiVersion: argoproj.io/v1alpha1
+  #     kind: Application
+  #     name: grade-app
+  #     namespace: default
+  #     hook: after-sync-hook
   syncPolicy:
     syncOptions:
     - CreateNamespace=false

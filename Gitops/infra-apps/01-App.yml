@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: grade-app
   namespace: default
+  annotations:
+    argocd.argoproj.io/hook: PreSync
 spec:
   project: default
   source:
@@ -18,3 +20,4 @@ spec:
     automated:
       selfHeal: true
       prune: true
+  
