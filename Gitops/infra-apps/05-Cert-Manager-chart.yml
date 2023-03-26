@@ -4,7 +4,7 @@ metadata:
   name: cert-manager
   namespace: default
   annotations:
-    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   # dependencies:
   #     - name: grade-app

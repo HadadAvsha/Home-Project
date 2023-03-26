@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt
   namespace: default
   annotations:
-    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   # dependencies:
   #     - name: cert-manager
