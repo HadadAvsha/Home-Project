@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: app-of-apps
-  namespace: argo-cd
+  namespace: default
   # finalizers:
   # - resources-finalizer.argocd.argoproj.io
 spec:
@@ -15,7 +15,7 @@ spec:
     server: https://kubernetes.default.svc
   syncPolicy:
     syncOptions:
-    - CreateNamespace=true
+    - CreateNamespace=false
     automated:
       selfHeal: true
       prune: true
