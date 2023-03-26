@@ -4,6 +4,11 @@ metadata:
   name: letsencrypt
   namespace: default
 spec:
+  dependencies:
+      - name: cert-manager
+        namespace: default
+        kind: Application
+        apiVersion: argoproj.io/v1alpha1
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: green1devops@gmail.com
