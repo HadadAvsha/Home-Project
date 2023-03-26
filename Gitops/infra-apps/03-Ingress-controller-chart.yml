@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    chart: ingress-nginx
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.4.2
+    helm:
+      parameters:
+        - name: "controller.metrics.enabled"
+          value: "true"
+        - name: "controller.metrics.serviceMonitor.enabled"
+          value: "true"
+        - name: "controller.metrics.serviceMonitor.additionalLabels.release"
+          value: "prometheus-grafana-stack"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=false
+    automated:
+      selfHeal: true
+      prune: true
