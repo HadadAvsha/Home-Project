@@ -34,7 +34,7 @@ kibana:
 
 fluentd:
   podSecurityPolicy:
-    create: false
+    enabled: false
   metrics:
     serviceMonitor:
       enabled: true
