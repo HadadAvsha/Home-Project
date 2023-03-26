@@ -43,7 +43,8 @@ terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform,ansible
 
-.terraform.lock.hcl .old
+.terraform.lock.hcl
+.old
 init-db.js
 Infra/
 infra/
@@ -57,4 +58,4 @@ secrets.tf
 *.old
 *.*.old
 **/offgit/*
-offgit
+offgit.terraform.lock.hcl

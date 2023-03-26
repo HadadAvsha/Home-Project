@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "controlplane" {
     slot = 0
     size = var.disk_size
     type = "scsi"
-    storage = "vms-disks"
+    storage = "ssd500"
   }
 
   network {
@@ -59,7 +59,7 @@ resource "proxmox_vm_qemu" "kube-node" {
     slot = 0
     size = var.disk_size
     type = "scsi"
-    storage = "vms-disks"
+    storage = "ssd500"
   }
 
   network {
