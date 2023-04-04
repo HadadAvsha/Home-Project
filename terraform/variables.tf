@@ -9,6 +9,14 @@ variable "template_name" {
     default = "k8s-template-20.04"
 }
 
+variable "cores" {
+  default = "4"
+}
+
+variable "memory" {
+  default = "8192"
+}
+
 variable "disk_size" {
   default = "100G"
 }

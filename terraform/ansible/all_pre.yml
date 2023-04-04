@@ -48,3 +48,9 @@
       become_user: ubuntu
       shell: |
             kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+    
+    - name: Configure NFS
+      become: yes
+      become_user:  ubuntu
+      shell: |
+            sudo apt install nfs-common -y; sudo mount 192.168.100.105:/mnt/pool/nfs /nfs

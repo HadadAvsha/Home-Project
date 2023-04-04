@@ -8,10 +8,10 @@ resource "proxmox_vm_qemu" "controlplane" {
   agent = 1
   os_type = "cloud-init"
   ciuser = "ubuntu"
-  cores = 2
+  cores = var.cores
   sockets = 1
   cpu = "host"
-  memory = 4096
+  memory = var.memory
   scsihw = "virtio-scsi-pci"
   bootdisk = "scsi0"
 
@@ -48,10 +48,10 @@ resource "proxmox_vm_qemu" "kube-node" {
   agent = 1
   os_type = "cloud-init"
   ciuser = "ubuntu"
-  cores = 2
+  cores = var.cores
   sockets = 1
   cpu = "host"
-  memory = 4096
+  memory = var.memory
   scsihw = "virtio-scsi-pci"
   bootdisk = "scsi0"
 
