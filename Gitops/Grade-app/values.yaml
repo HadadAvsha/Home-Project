@@ -26,10 +26,11 @@ ingress:
 
 ######## mongoDB related values ########
 mongodb:
-  image.tag: "4.2.21-debian-10-r8"
   fullnameOverride: mongodb
   architecture: replicaset
   replicaCount: 3
+  image:
+    tag: "4.2.21-debian-10-r8"
   auth:
     rootUser: root
     rootPassword: "example"
