@@ -26,6 +26,7 @@ ingress:
 
 ######## mongoDB related values ########
 mongodb:
+  image.tag: "4.2.21-debian-10-r8"
   fullnameOverride: mongodb
   architecture: replicaset
   replicaCount: 3
@@ -35,3 +36,4 @@ mongodb:
 #### local storage config using OpenEBS
   global:
     storageClass: "local-hostpath"
+    # storageClass: "nfs-client"
