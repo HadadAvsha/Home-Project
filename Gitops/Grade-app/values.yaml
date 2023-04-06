@@ -29,6 +29,7 @@ mongodb:
   fullnameOverride: mongodb
   architecture: replicaset
   replicaCount: 3
+  #running on > 3th gen intel CPU comment this tag path
   image:
     tag: "4.2.21-debian-10-r8"
   auth:
@@ -38,3 +39,4 @@ mongodb:
   global:
     storageClass: "local-hostpath"
     # storageClass: "nfs-client"
+  persistence.resourcePolicy: "keep"
