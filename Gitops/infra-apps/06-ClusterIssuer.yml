@@ -6,11 +6,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
-  # dependencies:
-  #     - name: cert-manager
-  #       namespace: default
-  #       kind: Application
-  #       apiVersion: argoproj.io/v1alpha1
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: green1devops@gmail.com
@@ -20,13 +15,6 @@ spec:
     - http01:
         ingress:
           class: nginx
-  # dependsOn:
-  # - apiVersion: argoproj.io/v1alpha1
-  #   kind: Application
-  #   name: cert-manager
-  #   namespace: default
-  #   hook: after-sync-hook
-
 
 
 
