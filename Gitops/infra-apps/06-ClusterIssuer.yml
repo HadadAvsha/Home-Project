@@ -39,6 +39,9 @@ kind: ClusterIssuer
 metadata:
   name: letsencrypt
   namespace: default
+  annotations:
+    # argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
