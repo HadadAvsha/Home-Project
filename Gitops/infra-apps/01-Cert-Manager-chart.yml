@@ -3,10 +3,10 @@ kind: Application
 metadata:
   name: cert-manager
   namespace: default
-  annotations:
-    argocd.argoproj.io/hook: Sync
+  # annotations:
+    # argocd.argoproj.io/hook: Sync
     # argocd.argoproj.io/hook-delete-policy: HookSucceeded
-    argocd.argoproj.io/sync-wave: "-2"
+    # argocd.argoproj.io/sync-wave: "-2"
 spec:
   project: default
   source:
