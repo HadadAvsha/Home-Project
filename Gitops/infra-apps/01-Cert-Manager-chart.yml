@@ -4,9 +4,9 @@ metadata:
   name: cert-manager
   namespace: default
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
-    # argocd.argoproj.io/hook-delete-policy: HookSucceeded
     argocd.argoproj.io/hook: Sync
+    # argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   project: default
   source:
