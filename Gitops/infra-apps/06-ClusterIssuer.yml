@@ -40,7 +40,7 @@ metadata:
   name: letsencrypt
   namespace: default
   annotations:
-    # argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "4"
 spec:
   acme:
