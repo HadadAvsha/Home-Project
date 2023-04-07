@@ -18,6 +18,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  namespace: default
   name: wait-for-cert-manager
 spec:
   backoffLimit: 10
