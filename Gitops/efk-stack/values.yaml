@@ -1,22 +1,22 @@
 elasticsearch:
-  replicas: 2
+  # replicas: 2
   resources:
     requests:
       cpu: "500m"
-      memory: "1Gi"
+      memory: "2Gi"
     limits:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: "1000m"
+      memory: "2Gi"
 
 kibana:
   elasticsearchHosts: "http://elasticsearch-master:9200"
   resources:
     requests:
       cpu: "500m"
-      memory: "1Gi"
+      memory: "2Gi"
     limits:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: "1000m"
+      memory: "2Gi"
   ingress:
     enabled: false
     className: "nginx"

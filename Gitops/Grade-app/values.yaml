@@ -29,7 +29,7 @@ mongodb:
   fullnameOverride: mongodb
   architecture: replicaset
   replicaCount: 3
-  #running on > 3th gen intel CPU comment this tag path
+  #running on > 3th gen intel CPU comment this tag path (AXV support)
   image:
     tag: "4.2.21-debian-10-r8"
   auth:
