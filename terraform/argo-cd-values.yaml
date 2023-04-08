@@ -6,17 +6,17 @@ configs:
     server.insecure: true
 fullnameOverride: "argocd"
 
-# server:
-#   ingress:
-#     enabled: true
-#     annotations:
-#       acme.cert-manager.io/http01-edit-in-place: "true"
-#       cert-manager.io/cluster-issuer: letsencrypt
-#       "helm.sh/hook": post-install
-#     ingressClassName: "nginx"
-#     hosts:
-#       - "argocd-ui.duckdns.org"
-#     tls:
-#     - hosts:
-#       - argocd-ui.duckdns.org
-#       secretName: argo-cert
+server:
+  ingress:
+    enabled: true
+    annotations:
+      acme.cert-manager.io/http01-edit-in-place: "true"
+      cert-manager.io/cluster-issuer: letsencrypt
+      "helm.sh/hook": post-install
+    ingressClassName: "nginx"
+    hosts:
+      - "argocd-ui.duckdns.org"
+    tls:
+    - hosts:
+      - argocd-ui.duckdns.org
+      secretName: argo-cert
