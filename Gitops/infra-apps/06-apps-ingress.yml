@@ -1,0 +1,100 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  ingressClassName: nginx 
+  rules:
+  - host: "argocd-ui.duckdns.org"
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 443
+  tls:
+  - hosts:
+    - argocd-ui.duckdns.org
+    secretName: argocd-cert
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana-ui-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  ingressClassName: nginx 
+  rules:
+  - host: "kibana-ui.duckdns.org"
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: efk-stack-kibana
+            port:
+              number: 5601
+  tls:
+  - hosts:
+    - kibana-ui.duckdns.org
+    secretName: kibana-cert
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ui-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  ingressClassName: nginx 
+  rules:
+  - host: "grafana-ui.duckdns.org"
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: prometheus-grafana-stack
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - grafana-ui.duckdns.org
+    secretName: grafana-cert
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ingress
+#   annotations:
+#     cert-manager.io/cluster-issuer: letsencrypt
+#     acme.cert-manager.io/http01-edit-in-place: "true"
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#   - host: {{ .Values.ingress.dnsName }}
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: /
+#         backend:
+#           service:
+#             name: "{{- .Values.app.appName -}}-service"
+#             port:
+#               number: {{ .Values.app.service.port }}
+#   tls:
+#   - secretName: "{{- .Values.app.appName -}}-cert"
+#     hosts:
+#       - {{ .Values.ingress.dnsName }}
