@@ -55,6 +55,11 @@
       shell: |
             sudo mkdir /nfs; sudo apt install rpcbind nfs-common -y; echo "192.168.100.250:/mnt/nfs    /nfs/   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | sudo tee -a /etc/fstab 
 
+    - name: Disable apparmor
+      become: yes
+      shell: |
+            sudo systemctl stop apparmor; sudo systemctl disable apparmor; sudo systemctl restart containerd
+
     - name: Reboot a Linux machine 
       reboot:
         test_command: uptime
