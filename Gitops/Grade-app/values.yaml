@@ -21,7 +21,7 @@ app:
 
 ######## ingress related values ########
 ingress:
-  dnsName: avshaproject.ddns.net
+  dnsName: avshaproject.duckdns.org
   enabled: true
 
 ######## mongoDB related values ########
