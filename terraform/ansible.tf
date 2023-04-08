@@ -70,6 +70,7 @@ resource "null_resource" "ModifyApplyAnsiblePlayBook" {
     }
   depends_on = [null_resource.CopyFiles]
 }
+# kubectl patch configmaps argocd-cm --patch-file argocd-cm-patch.yml
 
 resource "null_resource" "PostConfigInstalls" {
   connection {
