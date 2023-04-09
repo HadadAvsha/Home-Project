@@ -11,7 +11,7 @@ resource "helm_release" "argocd" {
   chart            = "argo-cd"
   namespace        = "default"
   # create_namespace = true
-  version          = "5.27.3"
+  version          = "5.28.1"
   cleanup_on_fail  = true
   
   values = [

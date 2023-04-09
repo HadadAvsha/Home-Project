@@ -4,6 +4,7 @@ resource "proxmox_vm_qemu" "controlplane" {
   target_node = "pve"
   vmid = "40${count.index + 1}"
   clone = var.template_name
+  onboot = true
 
   agent = 1
   os_type = "cloud-init"
@@ -42,6 +43,7 @@ resource "proxmox_vm_qemu" "kube-node" {
   name = "kube-node-0${count.index + 1}"
   target_node = "pve"
   vmid = "50${count.index + 1}"
+  onboot = true
 
   clone = var.template_name
 
