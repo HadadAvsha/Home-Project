@@ -1,3 +1,4 @@
+#for NFS share change BasePath value to /var/local-hostpath
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -8,9 +9,8 @@ metadata:
       - name: StorageType
         value: hostpath
       - name: BasePath
-        value: /nfs
+        value: /nfs 
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: openebs.io/local
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
-# value: /var/local-hostpath

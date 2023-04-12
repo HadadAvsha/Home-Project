@@ -1,18 +1,14 @@
-# Home-Project<br/>
-## CI location: [Gitlab](https://gitlab.com/hadadavsha/grade-app)<br/>
-![image](https://user-images.githubusercontent.com/106066816/213912671-3bfb2d6e-d769-4c42-aef6-cfa90537d8d9.png)<br/>
-
-using proxmox, terraform, ansible, kubernetes, helm, argo-cd, hashicoprt vault and more
-
-
-if youre running on < 3th gen intel CPU take into considiration that 
-
-
-On my way to complete the CKA certificate i wanted to expiriment on a full k8s cluster(not kind, k3s or any variation), instead of paying for managed service or VMs in a cloud provider i decided to use some hardware i have laying around and setup my own cluster.
-This project got very interesting and i wanted to do more then just setup a cluster, so i used some of the tools i gainned during my devops bootcamp (and a bit more..).
-With automation and IaC in mind i decided on using Proxmox as my hypervisor of choice since it is open source and have an API to communicate with terraform.#(how to link)
-The next step is to create a image template for the VMs(#link to usefull guide), i decided to use ubuntu 20.04 as base image, you can use Roi`s guide on creating cloud-init template.
-Provisioning Vms in Terraform (im using 1 master and 2 workers) for k8s, more info in main.tf.
-once we have the VMs up and running we need to install some prerequisite for k8s to be fully operational using Ansible.
-    - NFS share for backuping up PV
-    - 
+# Setting up  k8s cluster using Ansible and Terraform in Proxmox<br/>
+## Some prerequisite:<br/>
+1. install proxmox and [setup requirement for terraform](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs).<br/>
+2. create init-cloud image using this [guide](https://tcude.net/creating-a-vm-template-in-proxmox/) and install [this](https://www.learnlinux.tv/how-to-build-an-awesome-kubernetes-cluster-using-proxmox-virtual-environment/) before capturing. <br/>
+3. clone repo and create new terraform.tfvars and enter the following info:
+    *   `proxmox_user` = proxmox username created in step 1
+    *   `proxmox_password` = proxmox password created in step 1
+    *   `ssh_key_path` = ssh key location for ansible to manage created VMs.
+4. in `variables.tf` change values<br/>
+5. in `main.tf` enter the correct ip range (@ipconfig0 section)<br/>
+6. in ansible folder:
+    *   if you setup NFS share uncomment the corresponding line in `all_pre.yml` and `SC-openEBS.yml`
+    *   for use of load balancer in k8s uncomment the `MetalLB.sh` and change the values in the `cidr_block line` and `ingress` lines
+11. `terraform init` > `terraform plan` > `terraform apply`.<br/>

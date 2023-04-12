@@ -25,10 +25,3 @@ data:
       addresses:
       - $ingress_range
 EOF
-#validating 
-# kubectl create deployment nginx --image=nginx
-# kubectl expose deployment nginx --port=80 --type=LoadBalancer
-# external_ip=$(kubectl get svc nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-# curl $external_ip
-# kubectl delete deployments.apps nginx
-# kubectl delete service nginx

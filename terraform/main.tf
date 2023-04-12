@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "controlplane" {
   count = 1
   name = "controlplane-0${count.index + 1}"
-  target_node = "pve"
+  target_node = var.target_node
   vmid = "40${count.index + 1}"
   clone = var.template_name
   onboot = true
@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "controlplane" {
     slot = 0
     size = var.disk_size
     type = "scsi"
-    storage = "ssd500"
+    storage = var.storage
   }
 
   network {
@@ -41,7 +41,7 @@ resource "proxmox_vm_qemu" "controlplane" {
 resource "proxmox_vm_qemu" "kube-node" {
   count = 2
   name = "kube-node-0${count.index + 1}"
-  target_node = "pve"
+  target_node = var.target_node
   vmid = "50${count.index + 1}"
   onboot = true
 
@@ -61,7 +61,7 @@ resource "proxmox_vm_qemu" "kube-node" {
     slot = 0
     size = var.disk_size
     type = "scsi"
-    storage = "ssd500"
+    storage = var.storage
   }
 
   network {
