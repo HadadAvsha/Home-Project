@@ -31,7 +31,7 @@
         line: 'ubuntu ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
 
-    - name: Add conf for containerd
+    - name: kubectl commands
       become: yes
       become_user: ubuntu
       blockinfile:
@@ -60,6 +60,6 @@
       shell: |
             sudo systemctl stop apparmor; sudo systemctl disable apparmor; sudo systemctl restart containerd
 
-    - name: Reboot a Linux machine 
+    - name: Rebooting 
       reboot:
         test_command: uptime
